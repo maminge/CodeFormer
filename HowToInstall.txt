@@ -1,0 +1,46 @@
+如果你电脑没安装conda，那么请先下载安装【https://www.anaconda.com/products/distribution】
+
+安装命令：
+git clone https://github.com/sczhou/CodeFormer
+
+cd CodeFormer
+
+pip install -r requirements.txt
+
+pip install -q gradio
+
+python basicsr/setup.py develop
+ 
+如果出现无法下载，请更换你的IP，或通过代理IP进行全局上网，推荐【Surfshark VPN】最高优惠链接 ：https://bittly.cc/Surfshark
+
+【下载预训练模型】：
+1.下载 facelib 预训练模型 到 weights/facelib文件夹。您可以手动下载预训练模型
+Google Drive: https://drive.google.com/drive/folders/1b_3qwrzY_kTQh0-SnBoGBgOrJ_PLZSKm?usp=sharing
+OneDrive: https://entuedu-my.sharepoint.com/personal/s200094_e_ntu_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fs200094%5Fe%5Fntu%5Fedu%5Fsg%2FDocuments%2FPaper%5FShangchen%2FCodeFormer%2Fpretrained%5Fmodels%2Ffacelib&ga=1
+
+或通过运行以下命令下载。
+python scripts/download_pretrained_models.py facelib
+
+2.下载 CodeFormer 预训练模型  到 weights/CodeFormer文件夹。您可以手动下载预训练模型
+Google Driver: https://drive.google.com/drive/folders/1CNNByjHDFt0b95q54yMVp6Ifo5iuU6QS?usp=sharing
+OneDrive: https://entuedu-my.sharepoint.com/personal/s200094_e_ntu_edu_sg/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fs200094%5Fe%5Fntu%5Fedu%5Fsg%2FDocuments%2FPaper%5FShangchen%2FCodeFormer%2Fpretrained%5Fmodels%2FCodeFormer&ga=1
+
+或通过运行以下命令下载。
+python scripts/download_pretrained_models.py CodeFormer
+
+面部修复（裁剪和对齐的面部）
+# For cropped and aligned faces
+python inference_codeformer.py -w 0.5 --has_aligned --input_path [input folder]
+
+整体图像增强
+# For whole image
+# Add '--bg_upsampler realesrgan' to enhance the background regions with Real-ESRGAN
+# Add '--face_upsample' to further upsample restorated face with Real-ESRGAN
+python inference_codeformer.py -w 0.7 --input_path [image folder/image path]
+
+视频增强
+# For video clips
+python inference_codeformer.py --bg_upsampler realesrgan --face_upsample -w 1.0 --input_path
+
+保真度权重w位于 [0, 1] 中。通常，较小的w往往会产生较高质量的结果，而较大的w会产生较高保真度的结果。
+结果将保存在results文件夹中。
